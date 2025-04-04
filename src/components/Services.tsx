@@ -3,6 +3,7 @@ import { Server, Code, LineChart, Shield, Zap, Smartphone, ClipboardCheck, Brain
 import { useRef, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 interface ServiceCardProps {
   icon: JSX.Element;
@@ -44,7 +45,7 @@ const ServiceCard = ({ icon, title, description, detailedServices, integrations,
     <div
       ref={cardRef}
       className={cn(
-        "glass-card p-6 rounded-xl transition-all duration-500 transform",
+        "glass-card p-6 rounded-xl transition-all duration-500 transform hover:shadow-lg hover:-translate-y-1",
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
       )}
       style={{ transitionDelay: `${delay}ms` }}
@@ -102,6 +103,7 @@ const ServiceCard = ({ icon, title, description, detailedServices, integrations,
 const Services = () => {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const [isHeadingVisible, setIsHeadingVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -296,6 +298,10 @@ const Services = () => {
     },
   ];
 
+  const handleViewAllServices = () => {
+    navigate('/tech-solutions');
+  };
+
   return (
     <section id="services" className="section-container">
       <div className="text-center mb-16">
@@ -331,7 +337,7 @@ const Services = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {services.map((service, index) => (
+        {services.slice(0, 4).map((service, index) => (
           <ServiceCard
             key={index}
             icon={service.icon}
@@ -342,6 +348,19 @@ const Services = () => {
             delay={100 * index}
           />
         ))}
+      </div>
+
+      <div className={cn(
+        "mt-12 text-center transition-all duration-700 transform",
+        isHeadingVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+      )} style={{ transitionDelay: "600ms" }}>
+        <Button 
+          onClick={handleViewAllServices}
+          size="lg" 
+          className="bg-primary hover:bg-primary/90"
+        >
+          View All Services
+        </Button>
       </div>
     </section>
   );

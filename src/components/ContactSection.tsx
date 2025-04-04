@@ -52,6 +52,16 @@ const ContactSection = () => {
     }, 1500);
   };
 
+  // Handle click on phone number
+  const handlePhoneClick = () => {
+    window.location.href = 'tel:+13462986933';
+  };
+
+  // Handle click on address for Google Maps
+  const handleAddressClick = () => {
+    window.open('https://maps.google.com/?q=1300+W+Sam+Houston+Pkwy+S,+Houston,+TX+77042', '_blank');
+  };
+
   return (
     <section id="contact" className="section-container" ref={containerRef}>
       <div className="grid md:grid-cols-2 gap-12">
@@ -107,35 +117,27 @@ const ContactSection = () => {
               </div>
             </div>
             
-            <div className="flex items-center gap-4">
-              <div className="bg-primary/10 p-3 rounded-full">
+            <div className="flex items-center gap-4 cursor-pointer group" onClick={handlePhoneClick}>
+              <div className="bg-primary/10 p-3 rounded-full group-hover:bg-primary/20 transition-colors">
                 <Phone className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <h3 className="font-medium">Phone</h3>
-                <a 
-                  href="tel:+13462986933" 
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
+                <span className="text-muted-foreground group-hover:text-primary transition-colors">
                   (346) 298-6933
-                </a>
+                </span>
               </div>
             </div>
             
-            <div className="flex items-center gap-4">
-              <div className="bg-primary/10 p-3 rounded-full">
+            <div className="flex items-center gap-4 cursor-pointer group" onClick={handleAddressClick}>
+              <div className="bg-primary/10 p-3 rounded-full group-hover:bg-primary/20 transition-colors">
                 <MapPin className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <h3 className="font-medium">Location</h3>
-                <a 
-                  href="https://maps.google.com/?q=1300+W+Sam+Houston+Pkwy+S,+Houston,+TX+77042" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                >
+                <span className="text-muted-foreground group-hover:text-primary transition-colors">
                   1300 W Sam Houston Pkwy S, Houston, TX 77042
-                </a>
+                </span>
               </div>
             </div>
           </div>
@@ -143,7 +145,7 @@ const ContactSection = () => {
 
         <div 
           className={cn(
-            "glass-card rounded-xl p-6 md:p-8 transition-all duration-700 transform",
+            "glass-card rounded-xl p-6 md:p-8 transition-all duration-700 transform hover:shadow-lg",
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           )}
           style={{ transitionDelay: "400ms" }}
@@ -199,7 +201,7 @@ const ContactSection = () => {
               type="submit"
               disabled={isSubmitting}
               className={cn(
-                "w-full bg-primary text-primary-foreground flex items-center justify-center gap-2 py-3 rounded-md font-medium transition-all",
+                "w-full bg-primary text-primary-foreground flex items-center justify-center gap-2 py-3 rounded-md font-medium transition-all hover:shadow-md",
                 isSubmitting ? "opacity-70 cursor-not-allowed" : "hover:bg-primary/90"
               )}
             >

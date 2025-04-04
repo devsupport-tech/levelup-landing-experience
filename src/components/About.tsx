@@ -2,6 +2,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Lightbulb, Target, TrendingUp, ShieldCheck } from 'lucide-react';
+import LazyImage from './LazyImage';
 
 const About = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -84,30 +85,53 @@ const About = () => {
             )}
             style={{ transitionDelay: "200ms" }}
           >
-            As a new business committed to excellence, we bring together expertise, innovation, and dedication 
+            As a business committed to excellence, we bring together expertise, innovation, and dedication 
             to help your business thrive in an increasingly digital world.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-          {features.map((feature, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center mb-16">
+          <div className="md:col-span-5 relative">
+            <div className="absolute -z-10 -left-10 -top-10 w-64 h-64 bg-primary/5 rounded-full filter blur-xl"></div>
             <div 
-              key={index} 
               className={cn(
-                "glass-card p-6 rounded-xl flex items-start gap-5 transition-all duration-700 transform hover:shadow-lg hover:-translate-y-1",
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+                "rounded-xl overflow-hidden shadow-lg transition-all duration-1000 transform relative",
+                isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
               )}
-              style={{ transitionDelay: `${300 + index * 100}ms` }}
+              style={{ transitionDelay: "300ms" }}
             >
-              <div className="bg-primary/10 p-3 rounded-xl">
-                {feature.icon}
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground">{feature.description}</p>
-              </div>
+              <LazyImage 
+                src="/lovable-uploads/d85248f2-37fe-4406-b31a-5fd2656f746e.png" 
+                alt="About Level Up Business" 
+                className="w-full h-auto rounded-xl"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
             </div>
-          ))}
+            <div className="absolute -z-10 -right-5 -bottom-5 w-48 h-48 bg-secondary/10 rounded-full filter blur-xl animate-pulse-slow"></div>
+          </div>
+
+          <div className="md:col-span-7">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {features.map((feature, index) => (
+                <div 
+                  key={index} 
+                  className={cn(
+                    "glass-card p-6 rounded-xl flex flex-col items-start gap-4 transition-all duration-700 transform hover:shadow-lg hover:-translate-y-1",
+                    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+                  )}
+                  style={{ transitionDelay: `${300 + index * 100}ms` }}
+                >
+                  <div className="bg-primary/10 p-3 rounded-xl">
+                    {feature.icon}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                    <p className="text-muted-foreground">{feature.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div 
@@ -123,10 +147,10 @@ const About = () => {
             the strategies and technologies that will make a real difference.
           </p>
           <a 
-            href="#contact" 
-            className="bg-primary text-white px-6 py-3 rounded-md text-lg font-medium hover:bg-primary/90 transition-all duration-300 hover:scale-105 hover:shadow-md inline-flex items-center gap-2 animate-pulse-slow"
+            href="/ai-technology" 
+            className="bg-primary text-white px-6 py-3 rounded-md text-lg font-medium hover:bg-primary/90 transition-all duration-300 hover:scale-105 hover:shadow-md inline-flex items-center gap-2"
           >
-            Get Started Today
+            Explore Our Solutions
           </a>
         </div>
       </div>

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import CallToAction from './CallToAction';
 import { Phone, CheckCircle, Sparkles, ArrowRight, Zap, Cpu, Code, ChevronRight } from 'lucide-react';
+import LazyImage from './LazyImage';
 
 // Define different hero content options
 const heroContent = [
@@ -32,6 +33,7 @@ const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [contentIndex, setContentIndex] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   // Content rotation
   useEffect(() => {
@@ -89,6 +91,10 @@ const Hero = () => {
 
   const currentContent = heroContent[contentIndex];
 
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
   return (
     <div 
       ref={containerRef} 
@@ -107,45 +113,65 @@ const Hero = () => {
       {/* Dark overlay for contrast */}
       <div className="absolute inset-0 bg-black/5 z-0"></div>
       
-      <div className="relative z-10 container mx-auto px-4 text-center">
-        <div 
-          className={`mb-6 inline-block transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${transitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'}`} 
-          style={{ transitionDelay: '0.2s' }}
-        >
-          <span className="bg-primary/10 text-primary font-medium px-6 py-2 rounded-full text-sm flex items-center justify-center gap-2">
-            {currentContent.icon}
-            {currentContent.tag}
-          </span>
-        </div>
-        
-        <h1 
-          className={`heading-xl max-w-4xl mx-auto mb-6 text-balance transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${transitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'}`} 
-          style={{ transitionDelay: '0.4s' }}
-        >
-          <span className="text-gradient font-bold">{currentContent.title.split(' to ')[0]}</span> to 
-          <span className="font-bold relative ml-2">
-            {currentContent.title.split(' to ')[1] || 'Transform Your Business'}
-            <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-primary to-purple-400 rounded-full transform scale-x-0 transition-transform duration-1000 origin-left" style={{ transitionDelay: '1s', transform: isVisible ? 'scaleX(1)' : 'scaleX(0)' }}></span>
-          </span>
-        </h1>
-        
-        <p 
-          className={`text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 text-balance transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${transitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'}`} 
-          style={{ transitionDelay: '0.6s' }}
-        >
-          {currentContent.description}
-        </p>
-        
-        <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '0.8s' }}>
-          <CallToAction text="Book a Free Consultation" variant="primary" />
-          <CallToAction text="See How We Can Help" variant="secondary" href="/tech-solutions" />
-          <a 
-            href="tel:+13462986933" 
-            className="flex items-center gap-2 bg-black/80 hover:bg-black text-white px-6 py-3 rounded-md font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
-          >
-            <Phone className="h-5 w-5" />
-            (346) 298-6933
-          </a>
+      <div className="relative z-10 container mx-auto px-4">
+        <div className="flex flex-col lg:flex-row items-center gap-12">
+          <div className="lg:w-1/2 text-center lg:text-left">
+            <div 
+              className={`mb-6 inline-block transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${transitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'}`} 
+              style={{ transitionDelay: '0.2s' }}
+            >
+              <span className="bg-primary/10 text-primary font-medium px-6 py-2 rounded-full text-sm flex items-center justify-center gap-2">
+                {currentContent.icon}
+                {currentContent.tag}
+              </span>
+            </div>
+            
+            <h1 
+              className={`heading-xl max-w-4xl lg:max-w-none mx-auto mb-6 text-balance transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${transitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'}`} 
+              style={{ transitionDelay: '0.4s' }}
+            >
+              <span className="text-gradient font-bold">{currentContent.title.split(' to ')[0]}</span> to 
+              <span className="font-bold relative ml-2">
+                {currentContent.title.split(' to ')[1] || 'Transform Your Business'}
+                <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-primary to-purple-400 rounded-full transform scale-x-0 transition-transform duration-1000 origin-left" style={{ transitionDelay: '1s', transform: isVisible ? 'scaleX(1)' : 'scaleX(0)' }}></span>
+              </span>
+            </h1>
+            
+            <p 
+              className={`text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 mb-10 text-balance transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${transitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'}`} 
+              style={{ transitionDelay: '0.6s' }}
+            >
+              {currentContent.description}
+            </p>
+            
+            <div className={`flex flex-col sm:flex-row gap-4 justify-center lg:justify-start transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '0.8s' }}>
+              <CallToAction text="Book a Free Consultation" variant="primary" />
+              <CallToAction text="See How We Can Help" variant="secondary" href="/ai-technology" />
+              <a 
+                href="tel:+13462986933" 
+                className="flex items-center gap-2 bg-black/80 hover:bg-black text-white px-6 py-3 rounded-md font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              >
+                <Phone className="h-5 w-5" />
+                (346) 298-6933
+              </a>
+            </div>
+          </div>
+          
+          <div className={`lg:w-1/2 relative transform transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`} style={{ transitionDelay: '0.7s' }}>
+            <div className="relative">
+              <div className="absolute -z-10 -left-10 -top-10 w-80 h-80 bg-primary/5 rounded-full filter blur-xl animate-pulse-slow"></div>
+              
+              <LazyImage 
+                src="/lovable-uploads/5e1f1df5-44e6-4737-abe1-dc93ed57d389.png" 
+                alt="Technology Solutions" 
+                className={`rounded-lg shadow-lg border border-white/10 transition-all duration-700 ${imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                width={600}
+                height={400}
+              />
+              
+              <div className="absolute -z-10 -bottom-10 -right-10 w-60 h-60 bg-secondary/10 rounded-full filter blur-xl animate-pulse-slow"></div>
+            </div>
+          </div>
         </div>
         
         {/* Indicators for hero content rotation */}
@@ -169,7 +195,7 @@ const Hero = () => {
         </div>
         
         <div className={`mt-24 transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '1s' }}>
-          <p className="text-sm text-muted-foreground mb-8">Why Small Businesses Choose Us</p>
+          <p className="text-sm text-muted-foreground mb-8 text-center">Why Small Businesses Choose Us</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-items-center items-center">
             {[
               { icon: <Zap className="h-6 w-6 text-primary group-hover:scale-110 transition-transform duration-300" />, title: "Smart Automation", delay: 0 },
