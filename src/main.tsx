@@ -5,7 +5,6 @@ import App from './App'
 import './index.css'
 import { Toaster } from './components/ui/sonner'
 
-// Remove the Router from here since it's in App.tsx
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />
