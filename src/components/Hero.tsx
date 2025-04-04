@@ -1,13 +1,50 @@
 
 import { useEffect, useRef, useState } from 'react';
 import CallToAction from './CallToAction';
-import { Phone, CheckCircle, Sparkles, ArrowRight, Zap, Cpu, Code } from 'lucide-react';
+import { Phone, CheckCircle, Sparkles, ArrowRight, Zap, Cpu, Code, ChevronRight } from 'lucide-react';
+
+// Define different hero content options
+const heroContent = [
+  {
+    tag: "Smart Tools & Technology for Your Business",
+    title: "AI & Technology Solutions to Transform Your Business",
+    description: "We help small businesses and entrepreneurs save time and grow faster with smart automation and the right digital tools designed specifically for your needs.",
+    icon: <Zap className="h-4 w-4 animate-pulse" />
+  },
+  {
+    tag: "Streamline Your Workflow & Save Time",
+    title: "Custom Automation Solutions for Business Growth",
+    description: "Eliminate repetitive tasks and focus on what matters most. Our custom automation tools help you work smarter, not harder.",
+    icon: <Cpu className="h-4 w-4 animate-pulse" />
+  },
+  {
+    tag: "Expert Digital Solutions",
+    title: "Modern Technology for Traditional Businesses",
+    description: "Bridge the gap between your traditional business and the digital world with custom solutions that respect your expertise while expanding your reach.",
+    icon: <Code className="h-4 w-4 animate-pulse" />
+  }
+];
 
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const circleOneRef = useRef<HTMLDivElement>(null);
   const circleTwoRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [contentIndex, setContentIndex] = useState(0);
+  const [transitioning, setTransitioning] = useState(false);
+
+  // Content rotation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTransitioning(true);
+      setTimeout(() => {
+        setContentIndex((prev) => (prev + 1) % heroContent.length);
+        setTransitioning(false);
+      }, 500);
+    }, 8000); // Change content every 8 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -50,6 +87,8 @@ const Hero = () => {
     return `${0.4 + (index * 0.2)}s`;
   };
 
+  const currentContent = heroContent[contentIndex];
+
   return (
     <div 
       ref={containerRef} 
@@ -69,23 +108,32 @@ const Hero = () => {
       <div className="absolute inset-0 bg-black/5 z-0"></div>
       
       <div className="relative z-10 container mx-auto px-4 text-center">
-        <div className={`mb-6 inline-block transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '0.2s' }}>
+        <div 
+          className={`mb-6 inline-block transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${transitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'}`} 
+          style={{ transitionDelay: '0.2s' }}
+        >
           <span className="bg-primary/10 text-primary font-medium px-6 py-2 rounded-full text-sm flex items-center justify-center gap-2">
-            <Zap className="h-4 w-4 animate-pulse" />
-            Smart Tools & Technology for Your Business
+            {currentContent.icon}
+            {currentContent.tag}
           </span>
         </div>
         
-        <h1 className={`heading-xl max-w-4xl mx-auto mb-6 text-balance transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '0.4s' }}>
-          <span className="text-gradient font-bold">AI & Technology Solutions</span> to 
+        <h1 
+          className={`heading-xl max-w-4xl mx-auto mb-6 text-balance transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${transitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'}`} 
+          style={{ transitionDelay: '0.4s' }}
+        >
+          <span className="text-gradient font-bold">{currentContent.title.split(' to ')[0]}</span> to 
           <span className="font-bold relative ml-2">
-            Transform Your Business
+            {currentContent.title.split(' to ')[1] || 'Transform Your Business'}
             <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-primary to-purple-400 rounded-full transform scale-x-0 transition-transform duration-1000 origin-left" style={{ transitionDelay: '1s', transform: isVisible ? 'scaleX(1)' : 'scaleX(0)' }}></span>
           </span>
         </h1>
         
-        <p className={`text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 text-balance transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '0.6s' }}>
-          We help small businesses and entrepreneurs save time and grow faster with <span className="text-primary font-medium">smart automation</span> and <span className="text-primary font-medium">the right digital tools</span> designed specifically for your needs.
+        <p 
+          className={`text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 text-balance transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${transitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'}`} 
+          style={{ transitionDelay: '0.6s' }}
+        >
+          {currentContent.description}
         </p>
         
         <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '0.8s' }}>
@@ -100,6 +148,26 @@ const Hero = () => {
           </a>
         </div>
         
+        {/* Indicators for hero content rotation */}
+        <div className="mt-10 flex justify-center space-x-2">
+          {heroContent.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setTransitioning(true);
+                setTimeout(() => {
+                  setContentIndex(index);
+                  setTransitioning(false);
+                }, 500);
+              }}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === contentIndex ? 'bg-primary scale-110' : 'bg-gray-300/50 scale-100'
+              }`}
+              aria-label={`Switch to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+        
         <div className={`mt-24 transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '1s' }}>
           <p className="text-sm text-muted-foreground mb-8">Why Small Businesses Choose Us</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-items-center items-center">
@@ -108,8 +176,8 @@ const Hero = () => {
               { icon: <Cpu className="h-6 w-6 text-primary group-hover:scale-110 transition-transform duration-300" />, title: "Simple Digital Tools", delay: 1 },
               { icon: <Code className="h-6 w-6 text-primary group-hover:scale-110 transition-transform duration-300" />, title: "Custom Solutions", delay: 2 }
             ].map((item, index) => (
-              <div key={index} className={`flex flex-col items-center gap-3 p-5 rounded-xl hover:bg-white/5 transition-all duration-300 hover:shadow-lg hover:scale-105 transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: getStaggeredDelay(item.delay) }}>
-                <div className="rounded-full bg-primary/10 p-4 group hover:bg-primary/20 transition-all duration-300">
+              <div key={index} className={`flex flex-col items-center gap-3 p-5 rounded-xl hover:bg-white/5 transition-all duration-300 hover:shadow-lg hover:scale-105 group transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: getStaggeredDelay(item.delay) }}>
+                <div className="rounded-full bg-primary/10 p-4 group-hover:bg-primary/20 transition-all duration-300">
                   {item.icon}
                 </div>
                 <p className="font-medium">{item.title}</p>
