@@ -7,6 +7,7 @@ interface LazyImageProps {
   className?: string;
   width?: number;
   height?: number;
+  onLoad?: () => void; // Added an optional onLoad callback
 }
 
 export default function LazyImage({ 
@@ -14,7 +15,8 @@ export default function LazyImage({
   alt, 
   className = '', 
   width, 
-  height 
+  height,
+  onLoad
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
@@ -42,6 +44,9 @@ export default function LazyImage({
 
   const handleLoad = () => {
     setIsLoaded(true);
+    if (onLoad) {
+      onLoad();
+    }
   };
 
   return (

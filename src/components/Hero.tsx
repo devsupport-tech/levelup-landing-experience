@@ -1,227 +1,77 @@
 
-import { useEffect, useRef, useState } from 'react';
-import CallToAction from './CallToAction';
-import { Phone, CheckCircle, Sparkles, ArrowRight, Zap, Cpu, Code, ChevronRight } from 'lucide-react';
-import LazyImage from './LazyImage';
-
-// Define different hero content options
-const heroContent = [
-  {
-    tag: "Smart Tools & Technology for Your Business",
-    title: "AI & Technology Solutions to Transform Your Business",
-    description: "We help small businesses and entrepreneurs save time and grow faster with smart automation and the right digital tools designed specifically for your needs.",
-    icon: <Zap className="h-4 w-4 animate-pulse" />
-  },
-  {
-    tag: "Streamline Your Workflow & Save Time",
-    title: "Custom Automation Solutions for Business Growth",
-    description: "Eliminate repetitive tasks and focus on what matters most. Our custom automation tools help you work smarter, not harder.",
-    icon: <Cpu className="h-4 w-4 animate-pulse" />
-  },
-  {
-    tag: "Expert Digital Solutions",
-    title: "Modern Technology for Traditional Businesses",
-    description: "Bridge the gap between your traditional business and the digital world with custom solutions that respect your expertise while expanding your reach.",
-    icon: <Code className="h-4 w-4 animate-pulse" />
-  }
-];
+import { useRef } from 'react';
+import HeroBackground from './hero/HeroBackground';
+import { HeroContentDisplay, heroContent } from './hero/HeroContent';
+import HeroFeatures from './hero/HeroFeatures';
+import HeroIndicators from './hero/HeroIndicators';
+import HeroActions from './hero/HeroActions';
+import HeroImage from './hero/HeroImage';
+import { useHeroAnimation } from './hero/useHeroAnimation';
 
 const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const circleOneRef = useRef<HTMLDivElement>(null);
   const circleTwoRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [contentIndex, setContentIndex] = useState(0);
-  const [transitioning, setTransitioning] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
-
-  // Content rotation
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTransitioning(true);
-      setTimeout(() => {
-        setContentIndex((prev) => (prev + 1) % heroContent.length);
-        setTransitioning(false);
-      }, 500);
-    }, 8000); // Change content every 8 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current || !circleOneRef.current || !circleTwoRef.current) return;
-      
-      const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-      const mouseX = e.clientX - left;
-      const mouseY = e.clientY - top;
-      
-      // Calculate the percentage across the container (0 to 1)
-      const xPercent = mouseX / width;
-      const yPercent = mouseY / height;
-      
-      // Use this to move the circles in parallax effect
-      const circleOneX = xPercent * 60 - 30; // -30px to +30px
-      const circleOneY = yPercent * 60 - 30;
-      
-      const circleTwoX = xPercent * -50 + 25; // +25px to -25px (inverse)
-      const circleTwoY = yPercent * -50 + 25;
-      
-      // Apply transformations with smooth transition
-      circleOneRef.current.style.transform = `translate(${circleOneX}px, ${circleOneY}px)`;
-      circleTwoRef.current.style.transform = `translate(${circleTwoX}px, ${circleTwoY}px)`;
-    };
-
-    // Set visibility after a small delay to trigger animations
-    const timeout = setTimeout(() => {
-      setIsVisible(true);
-    }, 100);
-
-    document.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      clearTimeout(timeout);
-    };
-  }, []);
-
-  const getStaggeredDelay = (index: number) => {
-    return `${0.4 + (index * 0.2)}s`;
-  };
+  
+  const {
+    isVisible,
+    contentIndex,
+    transitioning,
+    imageLoaded,
+    getStaggeredDelay,
+    handleSelectIndex,
+    handleImageLoad
+  } = useHeroAnimation({
+    containerRef,
+    circleOneRef,
+    circleTwoRef,
+    contentItems: heroContent
+  });
 
   const currentContent = heroContent[contentIndex];
-
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
 
   return (
     <div 
       ref={containerRef} 
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 bg-gradient-to-b from-background to-background/95"
     >
-      {/* Background blur circles with enhanced animations */}
-      <div 
-        ref={circleOneRef}
-        className="absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[120px] transition-transform duration-[600ms] ease-out animate-pulse-slow"
-      ></div>
-      <div 
-        ref={circleTwoRef}
-        className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-purple-700/15 rounded-full blur-[120px] transition-transform duration-[600ms] ease-out animate-pulse-slow"
-      ></div>
-      
-      {/* Dark overlay for contrast */}
-      <div className="absolute inset-0 bg-black/5 z-0"></div>
+      <HeroBackground 
+        circleOneRef={circleOneRef}
+        circleTwoRef={circleTwoRef}
+      />
       
       <div className="relative z-10 container mx-auto px-4">
         <div className="flex flex-col lg:flex-row items-center gap-12">
           <div className="lg:w-1/2 text-center lg:text-left">
-            <div 
-              className={`mb-6 inline-block transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${transitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'}`} 
-              style={{ transitionDelay: '0.2s' }}
-            >
-              <span className="bg-primary/10 text-primary font-medium px-6 py-2 rounded-full text-sm flex items-center justify-center gap-2">
-                {currentContent.icon}
-                {currentContent.tag}
-              </span>
-            </div>
+            <HeroContentDisplay
+              tag={currentContent.tag}
+              title={currentContent.title}
+              description={currentContent.description}
+              icon={currentContent.icon}
+              isVisible={isVisible}
+              transitioning={transitioning}
+            />
             
-            <h1 
-              className={`heading-xl max-w-4xl lg:max-w-none mx-auto mb-6 text-balance transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${transitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'}`} 
-              style={{ transitionDelay: '0.4s' }}
-            >
-              <span className="text-gradient font-bold">{currentContent.title.split(' to ')[0]}</span> to 
-              <span className="font-bold relative ml-2">
-                {currentContent.title.split(' to ')[1] || 'Transform Your Business'}
-                <span className="absolute -bottom-1 left-0 w-full h-1 bg-gradient-to-r from-primary to-purple-400 rounded-full transform scale-x-0 transition-transform duration-1000 origin-left" style={{ transitionDelay: '1s', transform: isVisible ? 'scaleX(1)' : 'scaleX(0)' }}></span>
-              </span>
-            </h1>
-            
-            <p 
-              className={`text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 mb-10 text-balance transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} ${transitioning ? 'opacity-0 translate-y-5' : 'opacity-100 translate-y-0'}`} 
-              style={{ transitionDelay: '0.6s' }}
-            >
-              {currentContent.description}
-            </p>
-            
-            <div className={`flex flex-col sm:flex-row gap-4 justify-center lg:justify-start transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '0.8s' }}>
-              <CallToAction text="Book a Free Consultation" variant="primary" />
-              <CallToAction text="See How We Can Help" variant="secondary" href="/ai-technology" />
-              <a 
-                href="tel:+13462986933" 
-                className="flex items-center gap-2 bg-black/80 hover:bg-black text-white px-6 py-3 rounded-md font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
-              >
-                <Phone className="h-5 w-5" />
-                (346) 298-6933
-              </a>
-            </div>
+            <HeroActions isVisible={isVisible} />
           </div>
           
-          <div className={`lg:w-1/2 relative transform transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`} style={{ transitionDelay: '0.7s' }}>
-            <div className="relative">
-              <div className="absolute -z-10 -left-10 -top-10 w-80 h-80 bg-primary/5 rounded-full filter blur-xl animate-pulse-slow"></div>
-              
-              <LazyImage 
-                src="/lovable-uploads/5e1f1df5-44e6-4737-abe1-dc93ed57d389.png" 
-                alt="Technology Solutions" 
-                className={`rounded-lg shadow-lg border border-white/10 transition-all duration-700 ${imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
-                width={600}
-                height={400}
-              />
-              
-              <div className="absolute -z-10 -bottom-10 -right-10 w-60 h-60 bg-secondary/10 rounded-full filter blur-xl animate-pulse-slow"></div>
-            </div>
-          </div>
+          <HeroImage 
+            isVisible={isVisible} 
+            imageLoaded={imageLoaded} 
+            onImageLoad={handleImageLoad} 
+          />
         </div>
         
-        {/* Indicators for hero content rotation */}
-        <div className="mt-10 flex justify-center space-x-2">
-          {heroContent.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                setTransitioning(true);
-                setTimeout(() => {
-                  setContentIndex(index);
-                  setTransitioning(false);
-                }, 500);
-              }}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                index === contentIndex ? 'bg-primary scale-110' : 'bg-gray-300/50 scale-100'
-              }`}
-              aria-label={`Switch to slide ${index + 1}`}
-            />
-          ))}
-        </div>
+        <HeroIndicators 
+          contentItems={heroContent}
+          currentIndex={contentIndex}
+          onSelectIndex={handleSelectIndex}
+        />
         
-        <div className={`mt-24 transform transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '1s' }}>
-          <p className="text-sm text-muted-foreground mb-8 text-center">Why Small Businesses Choose Us</p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-items-center items-center">
-            {[
-              { icon: <Zap className="h-6 w-6 text-primary group-hover:scale-110 transition-transform duration-300" />, title: "Smart Automation", delay: 0 },
-              { icon: <Cpu className="h-6 w-6 text-primary group-hover:scale-110 transition-transform duration-300" />, title: "Simple Digital Tools", delay: 1 },
-              { icon: <Code className="h-6 w-6 text-primary group-hover:scale-110 transition-transform duration-300" />, title: "Custom Solutions", delay: 2 }
-            ].map((item, index) => (
-              <div key={index} className={`flex flex-col items-center gap-3 p-5 rounded-xl hover:bg-white/5 transition-all duration-300 hover:shadow-lg hover:scale-105 group transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: getStaggeredDelay(item.delay) }}>
-                <div className="rounded-full bg-primary/10 p-4 group-hover:bg-primary/20 transition-all duration-300">
-                  {item.icon}
-                </div>
-                <p className="font-medium">{item.title}</p>
-                <ArrowRight className="h-4 w-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      
-      {/* Bottom decorative wave with animation */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 overflow-hidden">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="absolute bottom-0 w-full h-full">
-          <path 
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C149.93,118.92,281.09,78.93,321.39,56.44Z" 
-            className="fill-background/90 animate-float"
-          ></path>
-        </svg>
+        <HeroFeatures 
+          isVisible={isVisible} 
+          getStaggeredDelay={getStaggeredDelay} 
+        />
       </div>
     </div>
   );
