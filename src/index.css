@@ -1,114 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Add base styles for smooth scrolling and better text rendering */
 @layer base {
-  :root {
-    --background: 240 10% 97%;
-    --foreground: 240 10% 3.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-
-    --primary: 267 75% 59%;
-    --primary-foreground: 0 0% 98%;
-
-    --secondary: 267 30% 95%;
-    --secondary-foreground: 267 50% 30%;
-
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 4% 46%;
-
-    --accent: 267 30% 95%;
-    --accent-foreground: 267 50% 30%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 267 75% 59%;
-
-    --radius: 0.75rem;
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 267 75% 59%;
-    --primary-foreground: 0 0% 98%;
-
-    --secondary: 267 20% 25%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-
-    --accent: 267 20% 25%;
-    --accent-foreground: 0 0% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 267 75% 59%;
+  /* Optimize image rendering */
+  img {
+    @apply max-w-full h-auto;
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground font-sans overflow-x-hidden;
-    font-family: 'Inter', sans-serif;
-  }
-}
-
+/* Add content-visibility for off-screen elements */
 @layer components {
-  .glass-card {
-    @apply backdrop-blur-md bg-black/10 dark:bg-white/5 border border-white/20 shadow-lg;
+  .content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+  }
+
+  /* Card gradient with better performance */
+  .card-gradient {
+    background-image: linear-gradient(to bottom right, transparent, rgba(0, 0, 0, 0.05));
+    will-change: transform;
   }
   
-  .section-container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24;
+  /* Lazy load transition */
+  .lazy-load {
+    @apply opacity-0 transition-opacity duration-300;
   }
   
-  .heading-xl {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight;
-  }
-  
-  .heading-lg {
-    @apply text-3xl md:text-4xl font-bold tracking-tight;
-  }
-  
-  .heading-md {
-    @apply text-2xl md:text-3xl font-bold;
-  }
-  
-  .heading-sm {
-    @apply text-xl font-semibold;
-  }
-  
-  .text-balance {
-    text-wrap: balance;
-  }
-  
-  .text-gradient {
-    @apply bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent;
+  .lazy-loaded {
+    @apply opacity-100;
   }
 }
