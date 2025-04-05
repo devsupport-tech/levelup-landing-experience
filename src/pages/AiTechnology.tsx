@@ -16,7 +16,8 @@ import {
   Shield, 
   Rocket, 
   Sparkles,
-  ChevronRight
+  ChevronRight,
+  Phone
 } from 'lucide-react';
 
 const SectionHeading = ({ 
