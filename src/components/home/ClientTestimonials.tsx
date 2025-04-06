@@ -32,6 +32,11 @@ const ClientTestimonials = () => {
     }
   ];
 
+  // Handle index change from Carousel
+  const handleSelectIndex = (index: number) => {
+    setActiveIndex(index);
+  };
+
   return (
     <div className="py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-black/40 to-background pointer-events-none"></div>
@@ -73,7 +78,7 @@ const ClientTestimonials = () => {
 
         <Carousel 
           className="w-full max-w-5xl mx-auto"
-          onSelect={(index) => setActiveIndex(index)}
+          onSelectNewActiveIndex={handleSelectIndex}
         >
           <CarouselContent>
             {testimonials.map((testimonial, index) => (
