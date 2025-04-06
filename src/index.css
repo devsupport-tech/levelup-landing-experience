@@ -15,6 +15,14 @@
   img {
     @apply max-w-full h-auto;
   }
+  
+  /* Add AOS styles */
+  [data-aos] {
+    pointer-events: none;
+  }
+  [data-aos].aos-animate {
+    pointer-events: auto;
+  }
 }
 
 /* Add content-visibility for off-screen elements */
@@ -37,5 +45,38 @@
   
   .lazy-loaded {
     @apply opacity-100;
+  }
+  
+  /* Glass card effect */
+  .glass-card {
+    @apply border border-white/10 bg-white/5 backdrop-blur-sm;
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent);
+  }
+  
+  /* Section container with consistent spacing */
+  .section-container {
+    @apply py-24 px-4 container mx-auto;
+  }
+  
+  /* Typography styles */
+  .heading-xl {
+    @apply text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight;
+  }
+  
+  .heading-lg {
+    @apply text-3xl sm:text-4xl font-bold tracking-tight;
+  }
+  
+  .heading-md {
+    @apply text-2xl sm:text-3xl font-bold;
+  }
+  
+  .heading-sm {
+    @apply text-xl font-semibold;
+  }
+  
+  /* Gradient text */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-400;
   }
 }

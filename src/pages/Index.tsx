@@ -1,19 +1,31 @@
 
 import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
-import Services from '@/components/Services';
-import About from '@/components/About';
-import ContactSection from '@/components/ContactSection';
+import ModernHero from '@/components/home/ModernHero';
+import FeatureShowcase from '@/components/home/FeatureShowcase';
+import ClientTestimonials from '@/components/home/ClientTestimonials';
+import ProcessSection from '@/components/home/ProcessSection';
+import CTASection from '@/components/home/CTASection';
 import Footer from '@/components/Footer';
+import { useEffect } from 'react';
+import AOS from 'aos';
 
 const Index = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: false,
+      mirror: true,
+    });
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-b from-background via-background/98 to-background/95">
       <Navbar />
-      <Hero />
-      <Services />
-      <About />
-      <ContactSection />
+      <ModernHero />
+      <FeatureShowcase />
+      <ProcessSection />
+      <ClientTestimonials />
+      <CTASection />
       <Footer />
     </div>
   );
