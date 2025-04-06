@@ -49,8 +49,9 @@
   
   /* Glass card effect */
   .glass-card {
-    @apply border border-white/10 bg-white/5 backdrop-blur-sm;
-    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent);
+    @apply border border-white/20 backdrop-blur-xl;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   }
   
   /* Section container with consistent spacing */
@@ -78,5 +79,23 @@
   /* Gradient text */
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-400;
+  }
+  
+  /* Gradient backgrounds */
+  .bg-gradient-cool {
+    @apply bg-gradient-to-br from-blue-900 via-slate-800 to-purple-900;
+  }
+  
+  .bg-gradient-warm {
+    @apply bg-gradient-to-br from-purple-900 via-amber-900 to-orange-800;
+  }
+  
+  /* Modern card styles */
+  .modern-card {
+    @apply rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
   }
 }

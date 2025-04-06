@@ -32,14 +32,9 @@ const ClientTestimonials = () => {
     }
   ];
 
-  // Handle index change from Carousel
-  const handleSelectIndex = (index: number) => {
-    setActiveIndex(index);
-  };
-
   return (
-    <div className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-black/40 to-background pointer-events-none"></div>
+    <div className="py-24 relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-purple-500/10 to-blue-600/10 pointer-events-none"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
@@ -53,7 +48,7 @@ const ClientTestimonials = () => {
           </motion.p>
           
           <motion.h2 
-            className="text-3xl md:text-4xl font-bold mb-6"
+            className="text-3xl md:text-4xl font-bold mb-6 text-white"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -66,7 +61,7 @@ const ClientTestimonials = () => {
           </motion.h2>
           
           <motion.p 
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            className="text-lg text-blue-100/70 max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -88,15 +83,15 @@ const ClientTestimonials = () => {
           <CarouselContent>
             {testimonials.map((testimonial, index) => (
               <CarouselItem key={index}>
-                <div className="bg-black/30 backdrop-blur-sm rounded-xl border border-white/10 p-8 md:p-10">
+                <div className="glass-card p-8 md:p-10 shadow-xl">
                   <div className="flex flex-col md:flex-row gap-8 items-center">
                     <div className="md:w-1/3">
                       <div className="relative">
-                        <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-purple-600 rounded-full blur opacity-70"></div>
+                        <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-purple-600 rounded-full blur opacity-80"></div>
                         <img 
                           src={testimonial.image} 
                           alt={testimonial.name}
-                          className="relative w-24 h-24 md:w-32 md:h-32 object-cover rounded-full mx-auto border-2 border-white/20"
+                          className="relative w-24 h-24 md:w-32 md:h-32 object-cover rounded-full mx-auto border-2 border-white/30"
                         />
                       </div>
                       
@@ -106,14 +101,14 @@ const ClientTestimonials = () => {
                             <Star key={i} className="h-5 w-5 text-yellow-400 fill-yellow-400" />
                           ))}
                         </div>
-                        <h4 className="font-semibold text-xl">{testimonial.name}</h4>
-                        <p className="text-muted-foreground">{testimonial.role}</p>
+                        <h4 className="font-semibold text-xl text-white">{testimonial.name}</h4>
+                        <p className="text-blue-200/80">{testimonial.role}</p>
                       </div>
                     </div>
                     
                     <div className="md:w-2/3">
-                      <Quote className="h-10 w-10 text-primary/40 mb-4" />
-                      <p className="text-lg md:text-xl italic leading-relaxed">"{testimonial.quote}"</p>
+                      <Quote className="h-10 w-10 text-primary/60 mb-4" />
+                      <p className="text-lg md:text-xl italic leading-relaxed text-white/90">"{testimonial.quote}"</p>
                     </div>
                   </div>
                 </div>
@@ -126,7 +121,7 @@ const ClientTestimonials = () => {
               <button
                 key={index}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === activeIndex ? 'bg-primary scale-110' : 'bg-gray-300/50 scale-100'
+                  index === activeIndex ? 'bg-primary scale-110' : 'bg-white/30 scale-100'
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
@@ -134,8 +129,8 @@ const ClientTestimonials = () => {
           </div>
           
           <div className="flex justify-center mt-6 gap-4">
-            <CarouselPrevious className="relative inset-0 translate-y-0 bg-black/30 border-white/10 hover:bg-black/50" />
-            <CarouselNext className="relative inset-0 translate-y-0 bg-black/30 border-white/10 hover:bg-black/50" />
+            <CarouselPrevious className="relative inset-0 translate-y-0 bg-black/40 border-white/20 hover:bg-primary/80 hover:text-white" />
+            <CarouselNext className="relative inset-0 translate-y-0 bg-black/40 border-white/20 hover:bg-primary/80 hover:text-white" />
           </div>
         </Carousel>
       </div>
