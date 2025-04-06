@@ -92,12 +92,12 @@
   
   /* High contrast text for dark backgrounds */
   .text-high-contrast {
-    @apply text-blue-50;
+    @apply text-sky-50;
   }
   
   /* Medium contrast text for dark backgrounds */
   .text-medium-contrast {
-    @apply text-blue-200;
+    @apply text-sky-200;
   }
   
   /* Modern card styles */
