@@ -78,7 +78,12 @@ const ClientTestimonials = () => {
 
         <Carousel 
           className="w-full max-w-5xl mx-auto"
-          onSelectNewActiveIndex={handleSelectIndex}
+          setApi={(api) => {
+            api?.on('select', () => {
+              const selectedIndex = api.selectedScrollSnap();
+              setActiveIndex(selectedIndex);
+            });
+          }}
         >
           <CarouselContent>
             {testimonials.map((testimonial, index) => (
