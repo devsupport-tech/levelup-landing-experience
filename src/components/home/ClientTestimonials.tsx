@@ -61,7 +61,7 @@ const ClientTestimonials = () => {
           </motion.h2>
           
           <motion.p 
-            className="text-lg text-blue-100/70 max-w-2xl mx-auto"
+            className="text-lg text-blue-100 max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -101,14 +101,14 @@ const ClientTestimonials = () => {
                             <Star key={i} className="h-5 w-5 text-yellow-400 fill-yellow-400" />
                           ))}
                         </div>
-                        <h4 className="font-semibold text-xl text-white">{testimonial.name}</h4>
-                        <p className="text-blue-200/80">{testimonial.role}</p>
+                        <h4 className="font-semibold text-xl text-blue-50">{testimonial.name}</h4>
+                        <p className="text-blue-200">{testimonial.role}</p>
                       </div>
                     </div>
                     
                     <div className="md:w-2/3">
                       <Quote className="h-10 w-10 text-primary/60 mb-4" />
-                      <p className="text-lg md:text-xl italic leading-relaxed text-white/90">"{testimonial.quote}"</p>
+                      <p className="text-lg md:text-xl italic leading-relaxed text-blue-50">"{testimonial.quote}"</p>
                     </div>
                   </div>
                 </div>
@@ -121,7 +121,7 @@ const ClientTestimonials = () => {
               <button
                 key={index}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === activeIndex ? 'bg-primary scale-110' : 'bg-white/30 scale-100'
+                  index === activeIndex ? 'bg-primary scale-110' : 'bg-blue-200 scale-100'
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />

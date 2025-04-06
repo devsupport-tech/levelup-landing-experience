@@ -90,6 +90,16 @@
     @apply bg-gradient-to-br from-purple-900 via-amber-900 to-orange-800;
   }
   
+  /* High contrast text for dark backgrounds */
+  .text-high-contrast {
+    @apply text-blue-50;
+  }
+  
+  /* Medium contrast text for dark backgrounds */
+  .text-medium-contrast {
+    @apply text-blue-200;
+  }
+  
   /* Modern card styles */
   .modern-card {
     @apply rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg;

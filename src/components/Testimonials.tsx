@@ -122,11 +122,11 @@ const Testimonials = () => {
                 isVisible ? "opacity-100" : "opacity-0"
               )}
             >
-              <p className="text-xl md:text-2xl mb-8 font-medium text-balance">
+              <p className="text-xl md:text-2xl mb-8 font-medium text-balance text-foreground">
                 {testimonials[currentIndex].quote}
               </p>
               <div className="flex flex-col">
-                <span className="font-bold text-lg">
+                <span className="font-bold text-lg text-foreground">
                   {testimonials[currentIndex].author}
                 </span>
                 <span className="text-muted-foreground">
