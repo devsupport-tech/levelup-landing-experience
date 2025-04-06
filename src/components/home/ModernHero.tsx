@@ -5,9 +5,11 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Monitor, Zap, Bot, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import TypewriterComponent from 'typewriter-effect';
+import LazyImage from '@/components/LazyImage';
 
 const ModernHero = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [imageLoaded, setImageLoaded] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -32,19 +34,23 @@ const ModernHero = () => {
     window.location.href = 'tel:+13462986933';
   };
 
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
   return (
     <div ref={heroRef} className="relative min-h-[90vh] flex flex-col justify-center overflow-hidden">
-      {/* Animated background elements */}
+      {/* Animated background elements with blueish-purple colors */}
       <div 
         className="absolute inset-0 pointer-events-none" 
         style={{ 
-          background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(124, 58, 237, 0.15), transparent 50%)`,
+          background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(124, 58, 237, 0.2), transparent 50%)`,
           transition: 'background 0.3s ease'
         }}
       />
 
-      <div className="absolute top-1/4 -right-20 w-[40vw] h-[40vw] bg-primary/5 rounded-full blur-[100px] animate-pulse-slow"></div>
-      <div className="absolute bottom-1/4 -left-20 w-[30vw] h-[30vw] bg-secondary/10 rounded-full blur-[80px] animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-1/4 -right-20 w-[40vw] h-[40vw] bg-purple-600/20 rounded-full blur-[100px] animate-pulse-slow"></div>
+      <div className="absolute bottom-1/4 -left-20 w-[30vw] h-[30vw] bg-indigo-600/20 rounded-full blur-[80px] animate-pulse-slow" style={{ animationDelay: '2s' }}></div>
 
       <div className="container mx-auto px-4 z-10 mt-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -72,11 +78,11 @@ const ModernHero = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-400">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500">
                 Transforming Small Businesses
               </span>{" "}
               With{" "}
-              <div className="inline-block text-white">
+              <div className="inline-block text-high-contrast">
                 <TypewriterComponent
                   options={{
                     strings: [
@@ -137,35 +143,32 @@ const ModernHero = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
           >
             <div className="relative">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-purple-600 rounded-2xl blur opacity-30 animate-pulse"></div>
-              <div className="relative bg-black/40 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden shadow-xl">
-                <video 
-                  autoPlay 
-                  loop 
-                  muted 
-                  playsInline
-                  className="w-full h-full object-cover rounded-2xl"
-                >
-                  <source src="https://cdn.dribbble.com/userupload/5885368/file/original-c0affe642df7e35e55cec1d5ef323834.mp4" type="video/mp4" />
-                </video>
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl blur opacity-30 animate-pulse"></div>
+              <div className="relative bg-black/40 backdrop-blur-sm rounded-2xl border border-indigo-500/10 overflow-hidden shadow-xl">
+                <LazyImage 
+                  src="/lovable-uploads/5e1f1df5-44e6-4737-abe1-dc93ed57d389.png" 
+                  alt="Business Technology Solutions" 
+                  className={`w-full h-full object-cover rounded-2xl transition-all duration-700 ${imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                  onLoad={handleImageLoad}
+                />
               </div>
               
-              <div className="absolute -bottom-6 -right-6 bg-black/30 backdrop-blur-lg border border-white/10 p-4 rounded-xl shadow-lg">
+              <div className="absolute -bottom-6 -right-6 bg-black/30 backdrop-blur-lg border border-indigo-500/10 p-4 rounded-xl shadow-lg">
                 <div className="flex items-center gap-3">
-                  <Bot className="h-8 w-8 text-primary" />
+                  <Bot className="h-8 w-8 text-purple-400" />
                   <div>
-                    <p className="text-sm text-white">AI-Powered Solutions</p>
-                    <p className="text-xs text-gray-400">Smart automation for your business</p>
+                    <p className="text-sm text-high-contrast">AI-Powered Solutions</p>
+                    <p className="text-xs text-medium-contrast">Smart automation for your business</p>
                   </div>
                 </div>
               </div>
               
-              <div className="absolute -top-6 -left-6 bg-black/30 backdrop-blur-lg border border-white/10 p-4 rounded-xl shadow-lg">
+              <div className="absolute -top-6 -left-6 bg-black/30 backdrop-blur-lg border border-indigo-500/10 p-4 rounded-xl shadow-lg">
                 <div className="flex items-center gap-3">
-                  <Monitor className="h-8 w-8 text-purple-400" />
+                  <Monitor className="h-8 w-8 text-indigo-400" />
                   <div>
-                    <p className="text-sm text-white">Custom Software</p>
-                    <p className="text-xs text-gray-400">Tailored to your needs</p>
+                    <p className="text-sm text-high-contrast">Custom Software</p>
+                    <p className="text-xs text-medium-contrast">Tailored to your needs</p>
                   </div>
                 </div>
               </div>
