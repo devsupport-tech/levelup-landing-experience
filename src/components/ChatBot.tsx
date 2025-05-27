@@ -118,10 +118,11 @@ const ChatBot = () => {
       >
         <Button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-16 h-16 rounded-full bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-300"
+          className="w-16 h-16 rounded-full bg-gradient-to-br from-[#5B2EFF] to-[#E054FF] text-white shadow-lg hover:shadow-xl transition-all duration-300"
         >
           {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
         </Button>
+
       </motion.div>
 
       {/* Chat Window */}
