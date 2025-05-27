@@ -6,6 +6,7 @@ import ClientTestimonials from '@/components/home/ClientTestimonials';
 import ProcessSection from '@/components/home/ProcessSection';
 import CTASection from '@/components/home/CTASection';
 import Footer from '@/components/Footer';
+import ChatBot from '@/components/ChatBot';
 import { useEffect } from 'react';
 import AOS from 'aos';
 
@@ -27,6 +28,7 @@ const Index = () => {
       <ClientTestimonials />
       <CTASection />
       <Footer />
+      <ChatBot />
     </div>
   );
 };
